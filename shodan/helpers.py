@@ -3,6 +3,7 @@ import requests
 import json
 
 from .exception import APIError
+from .cli.settings import REQUESTS_TIMEOUT
 
 try:
     basestring
@@ -48,13 +49,16 @@ def api_request(key, function, params=None, data=None, base_url='https://api.sho
             if method.lower() == 'post':
                 data = requests.post(base_url + function, json.dumps(data), params=params,
                                      headers={'content-type': 'application/json'},
-                                     proxies=proxies)
+                                     proxies=proxies, timeout=REQUESTS_TIMEOUT)
             elif method.lower() == 'delete':
-                data = requests.delete(base_url + function, params=params, proxies=proxies)
+                data = requests.delete(base_url + function, params=params,
+                                       proxies=proxies, timeout=REQUESTS_TIMEOUT)
             elif method.lower() == 'put':
-                data = requests.put(base_url + function, params=params, proxies=proxies)
+                data = requests.put(base_url + function, params=params,
+                                    proxies=proxies, timeout=REQUESTS_TIMEOUT)
             else:
-                data = requests.get(base_url + function, params=params, proxies=proxies)
+                data = requests.get(base_url + function, params=params,
+                                    proxies=proxies, timeout=REQUESTS_TIMEOUT)
 
             # Exit out of the loop
             break
